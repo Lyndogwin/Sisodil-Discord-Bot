@@ -96,8 +96,8 @@ bot.on('message', message=> {
         var ms=new Mobile_suit(id,model,strength,speed)
         ms.add_MobileSuit();
 
-        message.channel.send("Your mobile suit has been add to your hanger"+
-                            "with base strength of 10 and base speed of 10")
+        message.channel.send("Your mobile suit has been added to your hanger "+
+                            "with base strength of 10 and base speed of 10.")
       }//if end
 
     })//first collector end
