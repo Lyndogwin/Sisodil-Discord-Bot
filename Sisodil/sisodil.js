@@ -3,6 +3,7 @@
 const Discord= require ("discord.js");
 const Mobile_suit=require("./Mobile_suit.js");
 
+const m_proto=new Mobile_suit()
 //the following is mysql connection code
 // --------------------------
 const mysql = require('mysql');
@@ -38,7 +39,7 @@ process.on('uncaughtException', function (err) {
 like the one you woud use minus the GUI*/
 var bot = new Discord.Client();
 //the bot then logs in with the following statement including it's token
-bot.login('BOT TOKEN')
+bot.login('')
 
 //the following is a lisener event for new message; from the discord.js library
 bot.on('message', message=> {
@@ -71,7 +72,7 @@ bot.on('message', message=> {
       message.channel.send("Well, let's just say 'good luck'");
     }
     else if (random==4){
-      message.channel.send("To lose the only person you've ever loved.");
+      message.channel.send('To send nudes to highschool girls at the ripe age of 50.');
     }
     else if (random==5){
       message.channel.send('To take a endless standardized test for eternity.');
@@ -96,15 +97,16 @@ bot.on('message', message=> {
         var ms=new Mobile_suit(id,model,strength,speed)
         ms.add_MobileSuit();
 
-        message.channel.send("Your mobile suit has been add to your hanger"+
+        message.channel.send("Your mobile suit has been added to your hanger "+
                             "with base strength of 10 and base speed of 10")
       }//if end
 
     })//first collector end
   }//end of primary if for 'BUILD MOBILE SUIT'
 
+
   if(msg==prefix+"SHOW ME MY SUITS"){
-    search_ALLMobileSuits(sender.id);
+    message.channel.send(m_proto.search_ALLMobileSuits(sender.id));
   }
 
   /*tormentor detection--message.includes() will read for the message and

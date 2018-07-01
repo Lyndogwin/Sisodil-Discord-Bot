@@ -2,7 +2,7 @@ const Discord= require ("discord.js");
 const mysql = require('mysql');
 
 class Mobile_suit{
-  constructor(id,model,strength,speed){
+  constructor(id,model,strength,speed) {
 
     this.con= mysql.createConnection({
       host: 'localhost',
@@ -40,14 +40,35 @@ class Mobile_suit{
       })
     })
   }
+  ////////////////////////////////////////////////////////////////////
+  //the follwing function needs to be repaired so that it returns a //
+  //string with the selection resuts that would be printed to the   //
+  //console.                                                        //
+  ////////////////////////////////////////////////////////////////////
+
   search_ALLMobileSuits(id){
     this.con.connect((err)=>{
       var select="SELECT * FROM mobile_suits WHERE id='"+id+"'"
-      this.con.query(select, (err, result)=>{
+      this.con.query(select, (err, rows, result)=>{
         console.log("Data selected")
+        return results;
       })
     })
   }
 }
-
 module.exports=Mobile_suit;
+
+/*var someVar = [];
+
+connection.query("select * from ROOMS", function(err, rows){
+  if(err) {
+    throw err;
+  } else {
+    setValue(rows);
+  }
+});
+
+function setValue(value) {
+  someVar = value;
+  console.log(someVar);
+}*/
