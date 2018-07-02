@@ -39,7 +39,7 @@ process.on('uncaughtException', function (err) {
 like the one you woud use minus the GUI*/
 var bot = new Discord.Client();
 //the bot then logs in with the following statement including it's token
-bot.login('NDU2NDM1ODM2OTQzMzM1NDU1.DgKkuw.jT1dyMaZpPRV6zMdj3xVTSeZzZg')
+bot.login('Bot token here!')
 
 //the following is a lisener event for new message; from the discord.js library
 bot.on('message', message=> {
@@ -129,7 +129,7 @@ bot.on('message', message=> {
   else if (msg.includes('NUTS')) {
     message.channel.send('Who let '+sender+' in here?');
   }
-  else if(msg.includes('FUCK YOU')){
+  else if(msg.includes('Fuck')){
     message.channel.send("....Vulgar human. Do you consider how childish you sound?", +sender);
   }
   else if (msg.includes('RIP')){
