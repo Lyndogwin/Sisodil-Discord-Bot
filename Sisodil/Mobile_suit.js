@@ -58,7 +58,8 @@ class Mobile_suit{
   //to the console.                                                 //
   ////////////////////////////////////////////////////////////////////
   //successfully called fucntion
-  //but it is giving me the string "[object Object]"
+  //but it is giving me an ugly Object to JSON string
+  //in a format that is straining to read
   //see if statement taged @search_AllMobileSuits
   //in the primary bot file sisodil.js
   search_ALLMobileSuits(id,callback){
@@ -67,7 +68,7 @@ class Mobile_suit{
     this.con.query(select,(err, results)=>{
 
       if (err) callback(err,null);
-      else callback(null, results[0].toString()); console.log(results);
+      else callback(null, JSON.stringify(results)); console.log(results);
     })
 
   }
