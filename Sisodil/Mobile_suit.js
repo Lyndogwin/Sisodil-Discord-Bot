@@ -3,7 +3,7 @@ const mysql = require('mysql');
 
 class Mobile_suit{
 
-  constructor(id,model,strength,speed) {
+  constructor(id,model,hp,defense,strength,speed) {
     //general constructor with database connection
     this.con= mysql.createConnection({
       host: 'localhost',
@@ -15,6 +15,8 @@ class Mobile_suit{
 
     this.id=id
     this.model=model
+    this.hp=hp
+    this.defense=defense
     this.strength =strength
     this.speed=speed
   }
@@ -26,8 +28,8 @@ class Mobile_suit{
   ////////////////////////////////////////
   add_MobileSuit(){
     this.con.connect((err)=>{
-      var row="INSERT INTO mobile_suits(id, model, strength, speed)VALUES('"+this.id+"',"+"'"+this.model+
-                                                                         "',"+this.strength+","+this.speed+")"
+      var row="INSERT INTO mobile_suits(id, model, hp, defense, strength, speed)VALUES('"+this.id+"',"+"'"+this.model+
+                                                                         "',"+this.hp+","+this.defense+","+this.strength+","+this.speed+")"
 
       this.con.query(row, (err, result)=>{
         if (err) throw err;

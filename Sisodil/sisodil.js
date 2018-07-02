@@ -10,7 +10,7 @@ const mysql = require('mysql');
 const con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '5678',//interchangable
+  password: 'Password',//interchangable
   database: 'sisodil',//interchangable
   insecureAuth: true
 });
@@ -20,10 +20,12 @@ con.connect((err) => {
   console.log('Connected!');
 
   //create table *make sure this statement wont allow a rewrite*
-  var table="CREATE TABLE IF NOT EXISTS mobile_suits (id VARCHAR(30),"+
-                                    "model VARCHAR(100),"+
-                                    "strength INT(2),"+
-                                    "speed INT(2))";
+  var table="CREATE TABLE IF NOT EXISTS mobile_suits (ID VARCHAR(30),"+
+                                    "Model VARCHAR(30),"+
+                                    "Hp INT(4),"+
+                                    "Defense INT(2),"+
+                                    "Strength INT(2),"+
+                                    "Speed INT(2))";
   con.query(table, (err, result)=>{
     if (err) throw err;
     console.log("Table Created")
@@ -39,7 +41,7 @@ process.on('uncaughtException', function (err) {
 like the one you woud use minus the GUI*/
 var bot = new Discord.Client();
 //the bot then logs in with the following statement including it's token
-bot.login('Bot token here!')
+bot.login('Bot token')
 
 //the following is a lisener event for new message; from the discord.js library
 bot.on('message', message=> {
@@ -83,10 +85,12 @@ bot.on('message', message=> {
   if (msg==prefix+'BUILD MOBILE SUIT'){
     id=sender.id;
     model='Null';
+    hp=100;
+    defense=10
     strength=10;
     speed=10;
 
-    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 100000 });
+    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 30000 });
     console.log(collector)
 
     message.channel.send("Please enter the model# of your mobile suit. It can be anything you want.");
@@ -94,14 +98,15 @@ bot.on('message', message=> {
       if(model=='Null'){
         model=message.content;
 
-        var ms=new Mobile_suit(id,model,strength,speed)
+        var ms=new Mobile_suit(id,model,hp,defense,strength,speed)
         ms.add_MobileSuit();
 
         message.channel.send("Your mobile suit has been added to your hanger "+
-                            "with base strength of 10 and base speed of 10")
+                            "with hp at 100, defense at 10, strength at 10, "+
+                            "and speed at 10")
       }//if end
-
-    })//first collector end
+      return;
+    }); //first collector end
   }//end of primary if for 'BUILD MOBILE SUIT'
 
   //////////////////////////
@@ -121,23 +126,34 @@ bot.on('message', message=> {
 
   }
 
-  /*tormentor detection--message.includes() will read for the message and
-  return true if it matches the string literal it is given as an arguement*/
+  /////////////////////////
+  // tormentor detection //
+  /////////////////////////
+
+  /*--message.includes() will scan the Message
+  for the string literal given as and arguemen and
+  return true if it exists within the context of the message string */
   if (msg.includes('BITCH'+'@Sisodil, the tormentor')){
     message.channel.send("I will not excuse such foul language towards me. You're not fit to breath my air.");
   }
   else if (msg.includes('NUTS')) {
     message.channel.send('Who let '+sender+' in here?');
   }
-  else if(msg.includes('Fuck')){
-    message.channel.send("....Vulgar human. Do you consider how childish you sound?", +sender);
+  else if(msg.includes('FUCK YOU')){
+    message.channel.send("....Vulgar human. Have you considered how childish you sound?", +sender);
   }
   else if (msg.includes('RIP')){
     message.channel.send('RIP');
   }
 
-
-  //encoded messsage
+  /////////////////////////////////////
+  // The following is an             //
+  // encoded message                 //
+  //                                 //
+  // this whole thing is a mess      //
+  // and needs to be cleaned up a    //
+  // a bit                           //
+  /////////////////////////////////////
   if(msg==prefix+'SHOW ME THE WAY'){
     /*I don't entirely understand how the collector works
     but it supposedly loops through the .on funtion to collect any data
