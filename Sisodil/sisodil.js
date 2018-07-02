@@ -39,7 +39,7 @@ process.on('uncaughtException', function (err) {
 like the one you woud use minus the GUI*/
 var bot = new Discord.Client();
 //the bot then logs in with the following statement including it's token
-bot.login('')
+bot.login('NDU2NDM1ODM2OTQzMzM1NDU1.DgKkuw.jT1dyMaZpPRV6zMdj3xVTSeZzZg')
 
 //the following is a lisener event for new message; from the discord.js library
 bot.on('message', message=> {
@@ -104,9 +104,21 @@ bot.on('message', message=> {
     })//first collector end
   }//end of primary if for 'BUILD MOBILE SUIT'
 
-  
+  //////////////////////////
+  //@search_AllMobileSuits//
+  //////////////////////////
   if(msg==prefix+"SHOW ME MY SUITS"){
-    message.channel.send(m_proto.search_ALLMobileSuits(sender.id));
+    var print="null"
+    m_proto.search_ALLMobileSuits(sender.id,(err,data)=>{
+      if(err){
+        console.log(err)
+      }
+      else{
+         print=data;
+      }
+      message.channel.send(print)
+    });
+
   }
 
   /*tormentor detection--message.includes() will read for the message and

@@ -54,20 +54,35 @@ class Mobile_suit{
 
   ////////////////////////////////////////////////////////////////////
   //the follwing function needs to be repaired so that it returns a //
-  //string with the selection resuts that would be printed to the   //
-  //console.                                                        //
+  //string with similar selection resuts to those that would be     //
+  //to the console.                                                 //
   ////////////////////////////////////////////////////////////////////
-  //current error: UnhandledPromiseRejectionWarning: Unhandled promise rejection.
-  //This error originated either by throwing inside of an async function without a catch block,
-  //or by rejecting a promise which was not handled with .catch().
-  search_ALLMobileSuits(id){
-    this.con.connect((err)=>{
-      var select="SELECT * FROM mobile_suits WHERE id='"+id+"'"
-      this.con.query(select, (err, rows, fields)=>{
-        console.log(rows)
-        return rows;
-      })
+  //successfully called fucntion
+  //but it is giving me the string "[object Object]"
+  //see if statement taged @search_AllMobileSuits
+  //in the primary bot file sisodil.js
+  search_ALLMobileSuits(id,callback){
+    var select="SELECT * FROM mobile_suits WHERE id='"+id+"'"
+
+    this.con.query(select,(err, results)=>{
+
+      if (err) callback(err,null);
+      else callback(null, results[0].toString()); console.log(results);
     })
+
   }
 }
 module.exports=Mobile_suit;
+
+/*
+function callback() {
+    alert("I am in the callback!");
+}
+
+function work(func) {
+    alert("I am calling the callback!");
+    func();
+}
+
+work(callback);
+*/
