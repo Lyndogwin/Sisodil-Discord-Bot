@@ -66,13 +66,10 @@ class Mobile_suit{
   //in the primary bot file sisodil.js
   search_ALLMobileSuits(id,callback){
     var select="SELECT * FROM mobile_suits WHERE id='"+id+"'"
-
     this.con.query(select,(err, results)=>{
-
       if (err) callback(err,null);
       else callback(null, JSON.stringify(results)); console.log(results);
     })
-
   }
 }
 module.exports=Mobile_suit;

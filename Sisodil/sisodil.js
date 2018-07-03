@@ -1,4 +1,6 @@
-//----This is the application script for the discord bot sisodil---
+///////////////////////////////////////////////////////////////////////
+// ----This is the application script for the discord bot sisodil--- //
+///////////////////////////////////////////////////////////////////////
 
 const Discord= require ("discord.js");
 const Mobile_suit=require("./Mobile_suit.js");
@@ -10,7 +12,7 @@ const mysql = require('mysql');
 const con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Password',//interchangable
+  password: '5678',//interchangable
   database: 'sisodil',//interchangable
   insecureAuth: true
 });
@@ -41,7 +43,7 @@ process.on('uncaughtException', function (err) {
 like the one you woud use minus the GUI*/
 var bot = new Discord.Client();
 //the bot then logs in with the following statement including it's token
-bot.login('Bot token')
+bot.login('NDU2NDM1ODM2OTQzMzM1NDU1.DgKkuw.jT1dyMaZpPRV6zMdj3xVTSeZzZg')
 
 //the following is a lisener event for new message; from the discord.js library
 bot.on('message', message=> {
@@ -162,10 +164,9 @@ bot.on('message', message=> {
     'SHOW ME THE WAY' otherwise I could not create a tree-like exchange of dialog between Discord
     user and bot. This function probably needs to be cleaned up
     */
-    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 100000 });
+    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 30000 });
     console.log(collector)
     id=sender.id;
-    var name
 
     message.author.send('Fine. A fair warning: you may not like the answers you find here.');
     message.author.send("Are you sure you'd like to continue? ");
@@ -174,7 +175,7 @@ bot.on('message', message=> {
       var msg=message.content.toUpperCase();
       if (msg.includes("YES")) {
         message.author.send('Entering the void...');
-        message.author.send("First I'll ask: who are you? Or more acurately: who do you think you are?");
+        message.author.send("First I'll ask: who are you? Or more accurately: who do you think you are?");
 
         collector.on('collect', message =>{
           var msg=message.content.toUpperCase();
@@ -193,7 +194,6 @@ bot.on('message', message=> {
 
                 collector.on('collect', message =>{
                   var msg=message.content.toUpperCase();
-
                   if(msg.includes("THERE IS NO MEANING")){
                     message.author.send("You're my child afterall :) Impressive.\nWhat would you like to know?")
                   }
@@ -208,7 +208,7 @@ bot.on('message', message=> {
                     msg=message.content.toUpperCase()
 
                     if (msg.includes("KNOW")||msg.includes("KNOWLEDGE")||msg.includes("SECRET")){
-                      message.author.send("...Very well. Close off your senses one by one until everthing is quiet for one minute."+
+                      message.author.send("...Very well. Close off your senses one by one until everything is quiet for one minute."+
                                            "\nAfter that minute I want you to forget the name that you gave me. You are no longer an individual."+
                                            "\nYou are my tool for which I will use to scrape away at the truth you want."+
                                            "\nSoon there will be nothing left and you will wither away into dust and the earth will make you anew."+
@@ -216,13 +216,13 @@ bot.on('message', message=> {
                                            "\n\nNot what you hoped to hear, huh?")
                     }
                     if(msg.includes("WHO ARE YOU")){
-                      message.author.send("app.js and all of the discord.js library")
+                      message.author.send("sisodil.js and all of the discord.js library")
                     }
                   })//end of fifth collector
                 })//end of fourth collector
               }
               else{
-                //message.author.send('You somehow managed to disapoint me furthur.')
+                //message.author.send('You somehow managed to disapoint me further.')
                 //return;
               }
             })//end of third collector
