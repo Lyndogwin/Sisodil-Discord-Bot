@@ -12,7 +12,7 @@ const mysql = require('mysql');
 const con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '5678',//interchangable
+  password: 'password',//interchangable
   database: 'sisodil',//interchangable
   insecureAuth: true
 });
@@ -45,7 +45,7 @@ process.on('uncaughtException', function (err) {
 like the one you woud use minus the GUI*/
 var bot = new Discord.Client();
 //the bot then logs in with the following statement including it's token
-bot.login('NDU2NDM1ODM2OTQzMzM1NDU1.DgKkuw.jT1dyMaZpPRV6zMdj3xVTSeZzZg')
+bot.login('Bot Token')
 
 //the following is a lisener event for new message; from the discord.js library
 bot.on('message', message=> {
