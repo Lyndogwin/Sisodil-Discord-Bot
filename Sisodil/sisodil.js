@@ -12,7 +12,7 @@ const mysql = require('mysql');
 const con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Password',//interchangable
+  password: '5678',//interchangable
   database: 'sisodil',//interchangable
   insecureAuth: true
 });
@@ -24,10 +24,12 @@ con.connect((err) => {
   //create table *make sure this statement wont allow a rewrite*
   var table="CREATE TABLE IF NOT EXISTS mobile_suits (ID VARCHAR(30),"+
                                     "Model VARCHAR(30),"+
+                                    "Lvl INT(2),"+
                                     "Hp INT(4),"+
                                     "Defense INT(2),"+
                                     "Strength INT(2),"+
-                                    "Speed INT(2))";
+                                    "Speed INT(2),"+
+                                    "Manned BOOL)";
   con.query(table, (err, result)=>{
     if (err) throw err;
     console.log("Table Created")
@@ -43,7 +45,7 @@ process.on('uncaughtException', function (err) {
 like the one you woud use minus the GUI*/
 var bot = new Discord.Client();
 //the bot then logs in with the following statement including it's token
-bot.login('Bot token')
+bot.login('NDU2NDM1ODM2OTQzMzM1NDU1.DgKkuw.jT1dyMaZpPRV6zMdj3xVTSeZzZg')
 
 //the following is a lisener event for new message; from the discord.js library
 bot.on('message', message=> {
@@ -87,6 +89,7 @@ bot.on('message', message=> {
   if (msg==prefix+'BUILD MOBILE SUIT'){
     id=sender.id;
     model='Null';
+    lvl=1;
     hp=100;
     defense=10
     strength=10;
@@ -98,9 +101,9 @@ bot.on('message', message=> {
     message.channel.send("Please enter the model# of your mobile suit. It can be anything you want.");
     collector.on('collect', message=>{
       if(model=='Null'){
-        model=message.content;
+        model=message.content.toUpperCase();
 
-        var ms=new Mobile_suit(id,model,hp,defense,strength,speed)
+        var ms=new Mobile_suit(id,model,lvl,hp,defense,strength,speed)
         ms.add_MobileSuit();
 
         message.channel.send("Your mobile suit has been added to your hanger "+
@@ -126,6 +129,37 @@ bot.on('message', message=> {
       message.channel.send(print)
     });
 
+  }
+  /////////////////////////////////////
+  // the following if statement sets //
+  // you up in one of your suits     //
+  /////////////////////////////////////
+  if(msg==prefix+"PILOT SUIT"){
+    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 30000 });
+    console.log(collector)
+    var id=sender.id
+
+    //  print suits
+    var print="null"
+    m_proto.search_ALLMobileSuits(sender.id,(err,data)=>{
+      if(err){
+        console.log(err)
+      }
+      else{
+         print=data;
+      }
+      message.channel.send(print)
+    });
+    //----------------------------------------
+    //  dialog
+    message.channel.send("Which suit would you like to pilot?\n Specify model.")
+    collector.on('collect', message=>{
+      msg=message.content.toUpperCase()
+      if (sender.id==id){
+        var model=msg
+        m_proto.pilot_suit(sender.id,model)
+      }
+    })
   }
 
   /////////////////////////
