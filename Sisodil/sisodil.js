@@ -12,7 +12,7 @@ const mysql = require('mysql');
 const con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '5678',//interchangable
+  password: 'Password',//interchangable
   database: 'sisodil',//interchangable
   insecureAuth: true
 });
