@@ -84,8 +84,9 @@ bot.on('message', message=> {
       message.channel.send('To take a endless standardized test for eternity.');
     }
   }
-
-  //add new mobile suit to mobile_suit table
+  /////////////////////////////////////////////
+  //add new mobile suit to mobile_suit table //
+  /////////////////////////////////////////////
   if (msg==prefix+'BUILD MOBILE SUIT'){
     id=sender.id;
     model='Null';
