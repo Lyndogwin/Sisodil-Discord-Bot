@@ -12,7 +12,7 @@ const mysql = require('mysql');
 const con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Password',//interchangable
+  password: '5678',//interchangable
   database: 'sisodil',//interchangable
   insecureAuth: true
 });
@@ -45,7 +45,7 @@ process.on('uncaughtException', function (err) {
 like the one you woud use minus the GUI*/
 var bot = new Discord.Client();
 //the bot then logs in with the following statement including it's token
-bot.login('Bot Token')
+bot.login('NDU2NDM1ODM2OTQzMzM1NDU1.DgKkuw.jT1dyMaZpPRV6zMdj3xVTSeZzZg')
 
 //the following is a lisener event for new message; from the discord.js library
 bot.on('message', message=> {
@@ -84,9 +84,8 @@ bot.on('message', message=> {
       message.channel.send('To take a endless standardized test for eternity.');
     }
   }
-  /////////////////////////////////////////////
-  //add new mobile suit to mobile_suit table //
-  /////////////////////////////////////////////
+
+  //add new mobile suit to mobile_suit table
   if (msg==prefix+'BUILD MOBILE SUIT'){
     id=sender.id;
     model='Null';
@@ -127,7 +126,7 @@ bot.on('message', message=> {
       else{
          print=data;
       }
-      message.channel.send(print)
+      message.channel.send("```json\n"+print+"```")
     });
 
   }
@@ -149,7 +148,7 @@ bot.on('message', message=> {
       else{
          print=data;
       }
-      message.channel.send(print)
+      message.channel.send("```json\n"+print+"```")
     });
     //----------------------------------------
     //  dialog
