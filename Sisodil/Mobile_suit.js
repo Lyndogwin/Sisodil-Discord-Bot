@@ -8,7 +8,7 @@ class Mobile_suit{
     this.con= mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: '5678',//interchangable
+      password: 'password',//interchangable
       database: 'sisodil',//interchangable
       insecureAuth: true
     });
