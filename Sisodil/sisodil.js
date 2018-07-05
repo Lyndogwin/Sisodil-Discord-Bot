@@ -12,7 +12,7 @@ const mysql = require('mysql');
 const con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '5678',//interchangable
+  password: 'Password',//interchangable
   database: 'sisodil',//interchangable
   insecureAuth: true
 });
@@ -45,7 +45,7 @@ process.on('uncaughtException', function (err) {
 like the one you woud use minus the GUI*/
 var bot = new Discord.Client();
 //the bot then logs in with the following statement including it's token
-bot.login('NDU2NDM1ODM2OTQzMzM1NDU1.DgKkuw.jT1dyMaZpPRV6zMdj3xVTSeZzZg')
+bot.login('Bot Token')
 
 //the following is a lisener event for new message; from the discord.js library
 bot.on('message', message=> {
@@ -84,16 +84,17 @@ bot.on('message', message=> {
       message.channel.send('To take a endless standardized test for eternity.');
     }
   }
-
-  //add new mobile suit to mobile_suit table
+  /////////////////////////////////////////////
+  //add new mobile suit to mobile_suit table //
+  /////////////////////////////////////////////
   if (msg==prefix+'BUILD MOBILE SUIT'){
-    id=sender.id;
-    model='Null';
-    lvl=1;
-    hp=100;
-    defense=10
-    strength=10;
-    speed=10;
+    var id=sender.id;
+    var model='Null';
+    var lvl=1;
+    var hp=100;
+    var defense=10
+    var strength=10;
+    var speed=10;
 
     const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 30000 });
     console.log(collector)
@@ -101,7 +102,7 @@ bot.on('message', message=> {
     message.channel.send("Please enter the model# of your mobile suit. It can be anything you want.");
     collector.on('collect', message=>{
       if(model=='Null'){
-        model=message.content.toUpperCase();
+        var model=message.content.toUpperCase();
 
         var ms=new Mobile_suit(id,model,lvl,hp,defense,strength,speed)
         ms.add_MobileSuit();
@@ -134,7 +135,7 @@ bot.on('message', message=> {
   // the following if statement sets //
   // you up in one of your suits     //
   /////////////////////////////////////
-  if(msg==prefix+"PILOT SUIT"){
+  if(msg==prefix+"SORTIE"){
     const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 30000 });
     console.log(collector)
     var id=sender.id
@@ -161,7 +162,7 @@ bot.on('message', message=> {
       }
     })
   }
-
+//------------------------------------------------
   /////////////////////////
   // tormentor detection //
   /////////////////////////
@@ -181,7 +182,7 @@ bot.on('message', message=> {
   else if (msg.includes('RIP')){
     message.channel.send('RIP');
   }
-
+//------------------------------------------------------------------
   /////////////////////////////////////
   // The following is an             //
   // encoded message                 //
@@ -198,76 +199,76 @@ bot.on('message', message=> {
     'SHOW ME THE WAY' otherwise I could not create a tree-like exchange of dialog between Discord
     user and bot. This function probably needs to be cleaned up
     */
-    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 30000 });
+    const collector = new Discord.MessageCollector(message.author, m => m.author.id === message.author.id, { time: 100 });
     console.log(collector)
-    id=sender.id;
+    var final=true
+    var f1=false; var f2=false; var f3=false; var f4=false;
 
     message.author.send('Fine. A fair warning: you may not like the answers you find here.');
     message.author.send("Are you sure you'd like to continue? ");
 
-    collector.on('collect', message => {
-      var msg=message.content.toUpperCase();
-      if (msg.includes("YES")) {
-        message.author.send('Entering the void...');
-        message.author.send("First I'll ask: who are you? Or more accurately: who do you think you are?");
+    while(final){
+      collector.on('collect', message => {
+        var msg=message.content.toUpperCase();
+        if (msg.includes("YES")) {
+          message.author.send('Entering the void...');
+          message.author.send("First I'll ask: who are you? Or more accurately: who do you think you are?");
+          f1=true
+        }
 
-        collector.on('collect', message =>{
-          var msg=message.content.toUpperCase();
-          if (id==sender.id){
-            id=0;
-            name=msg
-            message.author.send('hmmmm\nOkay '+name);
-            message.author.send('solve: (2+2x6x5)/8^3')
-            message.author.send("Don't round.")
+        else if(f1){
+          var name=msg
+          message.author.send('hmmmm\nOkay '+name);
+          message.author.send('solve: (2+2x6x5)/8^3')
+          message.author.send("Don't round.")
+          f1= false
+          f2= true
+        }
 
-            collector.on('collect', message =>{
-              var msg=message.content.toUpperCase();
-              if(msg.includes('0.12109375')){
-                message.author.send("That was an easy one. It's refreshing to know one of my children isn't worthless.")
-                message.author.send("Try this one out: What is the meaning of life?")
+        else if(msg.includes('0.12109375')&&f2){
+          message.author.send("That was an easy one. It's refreshing to know one of my children isn't worthless.")
+          message.author.send("Try this one out: What is the meaning of life?")
+          f2=false
+          f3=true
+        }
 
-                collector.on('collect', message =>{
-                  var msg=message.content.toUpperCase();
-                  if(msg.includes("THERE IS NO MEANING")){
-                    message.author.send("You're my child afterall :) Impressive.\nWhat would you like to know?")
-                  }
-                  else if(msg.includes("CHAOS")||msg.includes("DISORDER")||msg.includes("DIE")||msg.includes("DEATH")){//make this work, Brando
-                    message.author.send("Excuse me, your highness. I didn't realize you were an EdgeLord.\nYour answer is close enough.")
-                    message.author.send("What do you want to know?")
-                  }
-                  else{
-                    return;
-                  }
-                  collector.on('collect', message =>{
-                    msg=message.content.toUpperCase()
 
-                    if (msg.includes("KNOW")||msg.includes("KNOWLEDGE")||msg.includes("SECRET")){
-                      message.author.send("...Very well. Close off your senses one by one until everything is quiet for one minute."+
-                                           "\nAfter that minute I want you to forget the name that you gave me. You are no longer an individual."+
-                                           "\nYou are my tool for which I will use to scrape away at the truth you want."+
-                                           "\nSoon there will be nothing left and you will wither away into dust and the earth will make you anew."+
-                                           "\nAfter a million rebirths, you'll still know nothing and you'll always know nothing, because you are nothing. In fact, everything is nothing."+
-                                           "\n\nNot what you hoped to hear, huh?")
-                    }
-                    if(msg.includes("WHO ARE YOU")){
-                      message.author.send("sisodil.js and all of the discord.js library")
-                    }
-                  })//end of fifth collector
-                })//end of fourth collector
-              }
-              else{
-                //message.author.send('You somehow managed to disapoint me further.')
-                //return;
-              }
-            })//end of third collector
-          }
-        })//end of second collector
-      }
-      else {
-      }
-    })//end of first collector
+        else if(msg.includes("THERE IS NO MEANING")&&f3){
+          message.author.send("You're my child afterall :) Impressive.\nWhat would you like to know?")
+          f3=false
+          f4=true
+        }
+        else if(msg.includes("CHAOS")||msg.includes("DISORDER")||msg.includes("DIE")||msg.includes("DEATH")&&f3){
+          message.author.send("Excuse me, your highness. I didn't realize you were an EdgeLord.\nYour answer is close enough.")
+          message.author.send("What do you want to know?")
+          f3=false
+          f4=true
+        }
+        else if(f3){
+          message.author.send("Sad. Really. Goodbye!")
+          return;
+        }
+
+        else if (msg.includes("KNOW")||msg.includes("KNOWLEDGE")||msg.includes("SECRET")&&f4){
+          message.author.send("...Very well. Close off your senses one by one until everything is quiet for one minute."+
+                               "\nAfter that minute I want you to forget the name that you gave me. You are no longer an individual."+
+                               "\nYou are my tool for which I will use to scrape away at the truth you want."+
+                               "\nSoon there will be nothing left and you will wither away into dust and the earth will make you anew."+
+                               "\nAfter a million rebirths, you'll still know nothing and you'll always know nothing, because you are nothing. In fact, everything is nothing."+
+                               "\n\nNot what you hoped to hear, huh?");
+          final=false
+
+        }
+        else if(msg.includes("WHO ARE YOU")){
+          message.author.send("sisodil.js and all of the discord.js library")
+          final=false
+        }
+
+        })//end of first collector
+    }//end of while loop
   }//end of primary if into dialog
 })//end of bot.on lisener for new message
+//-------------------------------------------------------
 
 //this is a lisener event for incoming members. It wil greet them and assign roles
 bot.on('guildMemberAdd', member=>{
