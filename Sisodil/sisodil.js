@@ -34,9 +34,10 @@ con.connect((err) => {
     if (err) throw err;
     console.log("Table Created")
   })
+ con.end()
 });
 
-process.on('uncaughtException', function (err) {
+process.on('uncaughtException', (err)=>{
     console.log(err);
 });
 //------------------------------------------------------
@@ -199,33 +200,39 @@ bot.on('message', message=> {
     'SHOW ME THE WAY' otherwise I could not create a tree-like exchange of dialog between Discord
     user and bot. This function probably needs to be cleaned up
     */
-    const collector = new Discord.MessageCollector(message.author, m => m.author.id === message.author.id, { time: 100 });
+    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 1200000 });
     console.log(collector)
-    var final=true
-    var f1=false; var f2=false; var f3=false; var f4=false;
+
+
 
     message.author.send('Fine. A fair warning: you may not like the answers you find here.');
     message.author.send("Are you sure you'd like to continue? ");
 
-    while(final){
-      collector.on('collect', message => {
-        var msg=message.content.toUpperCase();
-        if (msg.includes("YES")) {
+    collector.on('collect', message => {
+      var final=true
+      var f1=false; var f2=false; var f3=false; var f4=false;
+      var msg=message.content.toUpperCase();
+      id=sender.id
+
+
+        if (msg.includes("YES")&&final) {
+
           message.author.send('Entering the void...');
           message.author.send("First I'll ask: who are you? Or more accurately: who do you think you are?");
           f1=true
+          //stick a time out here
         }
+        //---------------following messages are not collected for some reason
 
-        else if(f1){
-          var name=msg
-          message.author.send('hmmmm\nOkay '+name);
+        if(f1&&message.author.id==id){
+          message.author.send('hmmmm\nOkay '+message.author);
           message.author.send('solve: (2+2x6x5)/8^3')
           message.author.send("Don't round.")
           f1= false
           f2= true
         }
 
-        else if(msg.includes('0.12109375')&&f2){
+        if(msg.includes('0.12109375')&&f2){
           message.author.send("That was an easy one. It's refreshing to know one of my children isn't worthless.")
           message.author.send("Try this one out: What is the meaning of life?")
           f2=false
@@ -233,7 +240,7 @@ bot.on('message', message=> {
         }
 
 
-        else if(msg.includes("THERE IS NO MEANING")&&f3){
+        if(msg.includes("THERE IS NO MEANING")&&f3){
           message.author.send("You're my child afterall :) Impressive.\nWhat would you like to know?")
           f3=false
           f4=true
@@ -246,10 +253,10 @@ bot.on('message', message=> {
         }
         else if(f3){
           message.author.send("Sad. Really. Goodbye!")
-          return;
+
         }
 
-        else if (msg.includes("KNOW")||msg.includes("KNOWLEDGE")||msg.includes("SECRET")&&f4){
+        else if(msg.includes("KNOW")||msg.includes("KNOWLEDGE")||msg.includes("SECRET")&&f4){
           message.author.send("...Very well. Close off your senses one by one until everything is quiet for one minute."+
                                "\nAfter that minute I want you to forget the name that you gave me. You are no longer an individual."+
                                "\nYou are my tool for which I will use to scrape away at the truth you want."+
@@ -263,9 +270,9 @@ bot.on('message', message=> {
           message.author.send("sisodil.js and all of the discord.js library")
           final=false
         }
+      //}//end of while loop
+    })//end of first collector
 
-        })//end of first collector
-    }//end of while loop
   }//end of primary if into dialog
 })//end of bot.on lisener for new message
 //-------------------------------------------------------
