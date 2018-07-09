@@ -4,15 +4,19 @@
 
 const Discord= require ("discord.js");
 const Mobile_suit=require("./Mobile_suit.js");
+const fs=require("fs");//  node.js file system module
+const config=require("./config.json")
 
 const m_proto=new Mobile_suit()
-//the following is mysql connection code
-// --------------------------
+
+/////////////////////////////////////////////
+// the following is mysql connection code  //
+// //////////////////////////////////////////
 const mysql = require('mysql');
 const con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'password',//interchangable
+  password: config.mysqlpass,//interchangable stored in config
   database: 'sisodil',//interchangable
   insecureAuth: true
 });
@@ -46,7 +50,8 @@ process.on('uncaughtException', (err)=>{
 like the one you woud use minus the GUI*/
 var bot = new Discord.Client();
 //the bot then logs in with the following statement including it's token
-bot.login('Bot token')
+//token is stored in a config file for my eyes only
+bot.login(config.botToken)
 
 //the following is a lisener event for new message; from the discord.js library
 bot.on('message', message=> {
