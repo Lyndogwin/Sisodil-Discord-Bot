@@ -3,9 +3,9 @@
 ///////////////////////////////////////////////////////////////////////
 
 const Discord= require ("discord.js");
-const Mobile_suit=require("./Mobile_suit.js");
+const Mobile_suit=require("Mobile_suit.js");
+const config=require("config.json")
 const fs=require("fs");//  node.js file system module
-const config=require("./config.json")
 
 const m_proto=new Mobile_suit()
 
@@ -14,14 +14,14 @@ const m_proto=new Mobile_suit()
 // //////////////////////////////////////////
 const mysql = require('mysql');
 const con = mysql.createConnection({
-  host: 'localhost',
+  host: 'localhost',//
   user: 'root',
   password: config.mysqlpass,//interchangable stored in config
   database: 'sisodil',//interchangable
-  insecureAuth: true
+  insecureAuth: true //Probably don't need
 });
 
-con.connect((err) => {
+con.connect((err) => {//err is a boolean return. True if err is caught
   if (err) throw err;
   console.log('Connected!');
 
@@ -40,7 +40,6 @@ con.connect((err) => {
   })
  con.end()
 });
-
 process.on('uncaughtException', (err)=>{
     console.log(err);
 });
@@ -53,6 +52,79 @@ var bot = new Discord.Client();
 //token is stored in a config file for my eyes only
 bot.login(config.botToken)
 
+//////////////////////////////////////////////////////////
+//    Added code bellow to handle modular commmands     //
+//////////////////////////////////////////////////////////
+//------------------------------------------------------
+// Uses Discord.Collection() mostly for the helpers like `map()`, to be honest.
+bot.commands = new Discord.Collection();
+bot.aliases = new Discord.Collection();
+// Load the contents of the `/command/` folder and each file in it.
+fs.readdir(`./commands/`, (err, files) => {//
+  if(err) console.error(err);
+  console.log(`Loading a total of ${files.length} commands.`);
+  // Loops through each file in that folder
+  files.forEach(f=> {
+    // require the file itself in memory
+    let props = require(`./commands/${f}`);
+    console.log(`Loading Command: ${props.help.name}. :ok_hand:`);
+    // add the command to the Commands Collection
+    bot.commands.set(props.help.name, props);
+    // Loops through each Alias in that command
+    props.conf.aliases.forEach(alias => {
+      // add the alias to the Aliases Collection
+      bot.aliases.set(alias, props.help.name);
+    });
+  });
+});
+//------------------------------------------------------
+////////////////////////////////////////////////////
+// The following is a lisener event for modular   //
+// commands                                       //
+////////////////////////////////////////////////////
+bot.on('message', message => {
+  var msg=message.content.toUpperCase();
+  var sender=message.author //not used
+  var senderID=message.author.id //not used
+
+  if (sender.id=='456435836943335455'){//bot id
+    return;
+  }
+
+  console.log(msg);
+  // Ignore message with no prefix for performance reasons
+  if(!msg.startsWith(config.prefix)) return;//ok
+  // Get the command by getting the first part of the message and removing  the prefix.
+  var command = msg.slice(config.prefix.length);//ok
+  console.log(command);
+  // Get the params in an array of arguments to be used in the bot
+  var params = msg.split(" ").slice(1);//not good
+  params[params.length]=senderID//not used
+  console.log(params[params.length-1])
+  // get the user's permission level
+  /* put code here to check for permission level*/
+  let cmd;
+  // Check if the command exists in Commands
+  if (bot.commands.has(command)) {
+    // Assign the command, if it exists in Commands
+    cmd = bot.commands.get(command)
+  // Check if the command exists in Aliases
+  } else if (bot.aliases.has(command)) {
+    // Assign the command, if it exists in Aliases
+    cmd = bot.commands.get(bot.aliases.get(command));
+  }
+
+  if(cmd) {
+    // Check user's perm level against the required level in the command
+    /*if (permission < cmd.conf.permLevel) return;*/
+
+    // Run the `exports.run()` function defined in each command.
+    cmd.run(bot, message, params);
+  }
+});
+
+//------------------------------------------------------
+
 //the following is a lisener event for new message; from the discord.js library
 bot.on('message', message=> {
 
@@ -64,109 +136,6 @@ bot.on('message', message=> {
 
   if (sender.id=='456435836943335455'){
     return;
-  }
-
-  //The following are scripts following comamnds
-  //Follow the format of the first 'if' statement to add commands
-  if (msg==prefix+'MY FATE'){
-    var random=Math.floor(Math.random()*6); //random number generator(0 to 1)
-
-    if (random==0){
-      message.channel.send('To die alone.');
-    }
-    else if (random==1) {
-      message.channel.send('あなたはちんちんを食べたい');
-    }
-    else if (random==2){
-      message.channel.send('To be granted immortality and be permanently constipated.');
-    }
-    else if (random==3){
-      message.channel.send("Well, let's just say 'good luck'");
-    }
-    else if (random==4){
-      message.channel.send('To send nudes to highschool girls at the ripe age of 50.');
-    }
-    else if (random==5){
-      message.channel.send('To take a endless standardized test for eternity.');
-    }
-  }
-  /////////////////////////////////////////////
-  //add new mobile suit to mobile_suit table //
-  /////////////////////////////////////////////
-  if (msg==prefix+'BUILD MOBILE SUIT'){
-    var id=sender.id;
-    var model='Null';
-    var lvl=1;
-    var hp=100;
-    var defense=10
-    var strength=10;
-    var speed=10;
-
-    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 30000 });
-    console.log(collector)
-
-    message.channel.send("Please enter the model# of your mobile suit. It can be anything you want.");
-    collector.on('collect', message=>{
-      if(model=='Null'){
-        var model=message.content.toUpperCase();
-
-        var ms=new Mobile_suit(id,model,lvl,hp,defense,strength,speed)
-        ms.add_MobileSuit();
-
-        message.channel.send("Your mobile suit has been added to your hanger "+
-                            "with hp at 100, defense at 10, strength at 10, "+
-                            "and speed at 10")
-      }//if end
-      return;
-    }); //first collector end
-  }//end of primary if for 'BUILD MOBILE SUIT'
-
-  //////////////////////////
-  //@search_AllMobileSuits//
-  //////////////////////////
-  if(msg==prefix+"SHOW ME MY SUITS"){
-    var print="null"
-    m_proto.search_ALLMobileSuits(sender.id,(err,data)=>{
-      if(err){
-        console.log(err)
-      }
-      else{
-         print=data;
-      }
-      message.channel.send("```json\n"+print+"```")
-    });
-
-  }
-  /////////////////////////////////////
-  // the following if statement sets //
-  // you up in one of your suits     //
-  /////////////////////////////////////
-  if(msg==prefix+"SORTIE"){
-    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 30000 });
-    console.log(collector)
-    var id=sender.id
-
-    //  print suits
-    var print="null"
-    m_proto.search_ALLMobileSuits(sender.id,(err,data)=>{
-      if(err){
-        console.log(err)
-      }
-      else{
-         print=data;
-      }
-      message.channel.send("```json\n"+print+"```")
-    });
-    //----------------------------------------
-    //  dialog
-    message.channel.send("Which suit would you like to pilot?\n Specify model.")
-    collector.on('collect', message=>{
-      msg=message.content.toUpperCase()
-      if (sender.id==id){
-        var model=msg
-        m_proto.pilot_suit(sender.id,model)
-      }
-    })
   }
 //------------------------------------------------
   /////////////////////////
@@ -189,96 +158,8 @@ bot.on('message', message=> {
     message.channel.send('RIP');
   }
 //------------------------------------------------------------------
-  /////////////////////////////////////
-  // The following is an             //
-  // encoded message                 //
-  //                                 //
-  // this whole thing is a mess      //
-  // and needs to be cleaned up a    //
-  // a bit                           //
-  /////////////////////////////////////
-  if(msg==prefix+'SHOW ME THE WAY'){
-    /*I don't entirely understand how the collector works
-    but it supposedly loops through the .on funtion to collect any data
-    type requested by the called funtion within .on Example: messgage=>
-    this allowed me to get the bot to wait for a respnse after the command call
-    'SHOW ME THE WAY' otherwise I could not create a tree-like exchange of dialog between Discord
-    user and bot. This function probably needs to be cleaned up
-    */
-    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 1200000 });
-    console.log(collector)
 
 
-
-    message.author.send('Fine. A fair warning: you may not like the answers you find here.');
-    message.author.send("Are you sure you'd like to continue? ");
-
-    collector.on('collect', message => {
-      var final=true
-      var f1=false; var f2=false; var f3=false; var f4=false;
-      var msg=message.content.toUpperCase();
-      id=sender.id
-
-
-        if (msg.includes("YES")&&final) {
-
-          message.author.send('Entering the void...');
-          message.author.send("First I'll ask: who are you? Or more accurately: who do you think you are?");
-          f1=true
-          //stick a time out here
-        }
-        //---------------following messages are not collected for some reason
-
-        if(f1&&message.author.id==id){
-          message.author.send('hmmmm\nOkay '+message.author);
-          message.author.send('solve: (2+2x6x5)/8^3')
-          message.author.send("Don't round.")
-          f1= false
-          f2= true
-        }
-
-        if(msg.includes('0.12109375')&&f2){
-          message.author.send("That was an easy one. It's refreshing to know one of my children isn't worthless.")
-          message.author.send("Try this one out: What is the meaning of life?")
-          f2=false
-          f3=true
-        }
-
-
-        if(msg.includes("THERE IS NO MEANING")&&f3){
-          message.author.send("You're my child afterall :) Impressive.\nWhat would you like to know?")
-          f3=false
-          f4=true
-        }
-        else if(msg.includes("CHAOS")||msg.includes("DISORDER")||msg.includes("DIE")||msg.includes("DEATH")&&f3){
-          message.author.send("Excuse me, your highness. I didn't realize you were an EdgeLord.\nYour answer is close enough.")
-          message.author.send("What do you want to know?")
-          f3=false
-          f4=true
-        }
-        else if(f3){
-          message.author.send("Sad. Really. Goodbye!")
-
-        }
-
-        else if(msg.includes("KNOW")||msg.includes("KNOWLEDGE")||msg.includes("SECRET")&&f4){
-          message.author.send("...Very well. Close off your senses one by one until everything is quiet for one minute."+
-                               "\nAfter that minute I want you to forget the name that you gave me. You are no longer an individual."+
-                               "\nYou are my tool for which I will use to scrape away at the truth you want."+
-                               "\nSoon there will be nothing left and you will wither away into dust and the earth will make you anew."+
-                               "\nAfter a million rebirths, you'll still know nothing and you'll always know nothing, because you are nothing. In fact, everything is nothing."+
-                               "\n\nNot what you hoped to hear, huh?");
-          final=false
-
-        }
-        else if(msg.includes("WHO ARE YOU")){
-          message.author.send("sisodil.js and all of the discord.js library")
-          final=false
-        }
-      //}//end of while loop
-    })//end of first collector
-
-  }//end of primary if into dialog
 })//end of bot.on lisener for new message
 //-------------------------------------------------------
 
