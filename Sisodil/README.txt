@@ -6,3 +6,8 @@ Will add additional documentation soon. Sorry!
 0 at Js, node.js, and discord.js                0
 0 Very much so a work-in-progress               0
 0000000000000000000000000000000000000000000000000
+
+Main application file is sisodil.js 
+
+Primary commands are in the commands folder and 
+Mobile_suit class is within node moduals. 
