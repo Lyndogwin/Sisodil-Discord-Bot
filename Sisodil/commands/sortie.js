@@ -24,9 +24,9 @@ exports.run=(bot,msg,params=[])=>{
   //  dialog
   msg.channel.send("Which suit would you like to pilot?\n Specify model.")
   collector.on('collect', msg=>{
-    message=msg.content.toUpperCase();
+
     if (ok){
-      var model=message;
+      var model=msg.content.toUpperCase();
       m_proto.pilot_suit(msg.author.id,model);
       ok=false;
 

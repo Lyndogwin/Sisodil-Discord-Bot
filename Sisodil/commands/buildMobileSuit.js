@@ -3,30 +3,30 @@ const Mobile_suit=require("Mobile_suit.js");
 
 const m_proto=new Mobile_suit()
 exports.run=(bot,msg,params=[])=>{//param accepts an array of arguements from bot.on
-  var id=msg.author.id
+  var id=msg.author.id;
   var model=null;
   var lvl=1;
-  var hp=100;
-  var defense=10
-  var strength=10;
-  var speed=10;
+  var hp=Math.floor(Math.random()*(100-90)+90);
+  var defense=Math.floor(Math.random()*(11-5)+5);
+  var strength=Math.floor(Math.random()*(11-5)+5);
+  var speed=Math.floor(Math.random()*(11-5)+5);
   var ok=true;
 
   const collector = new Discord.MessageCollector(msg.channel, m => m.author.id === msg.author.id, { time: 30000 });
-  console.log(collector)
-  console.log(model)
+  console.log(collector);
+
   msg.channel.send("Please enter the model# of your mobile suit. It can be anything you want.");
   collector.on('collect', msg=>{
     if(ok){
       var model=msg.content.toUpperCase();
-      console.log("model entered: "+model)
-      var ms=new Mobile_suit(id,model,lvl,hp,defense,strength,speed)
+      console.log("model entered: "+model);
+      var ms=new Mobile_suit(id,model,lvl,hp,defense,strength,speed,true);
       ms.add_MobileSuit();
 
       msg.channel.send("Your mobile suit has been added to your hanger "+
-                          "with hp at 100, defense at 10, strength at 10, "+
-                          "and speed at 10")
-      ok=false
+                          "with hp at "+hp+", defense at "+defense+", strength at "+strength+", "+
+                          "and speed at "+speed+".");
+      ok=false;
     }//if end
     return;
   }); //first collector end

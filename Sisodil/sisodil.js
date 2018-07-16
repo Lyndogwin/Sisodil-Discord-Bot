@@ -87,16 +87,15 @@ bot.on('message', message => {
   var sender=message.author //not used
   var senderID=message.author.id //not used
 
-  if (sender.id=='456435836943335455'){//bot id
+  //ignore any message from bot id
+  if (sender.id=='456435836943335455'){
     return;
   }
-
-  console.log(msg);
   // Ignore message with no prefix for performance reasons
   if(!msg.startsWith(config.prefix)) return;//ok
-  // Get the command by getting the first part of the message and removing  the prefix.
+  // Get the command by getting the first part of the message and slicing the prefix.
   var command = msg.slice(config.prefix.length);//ok
-  console.log(command);
+  console.log(command)
   // Get the params in an array of arguments to be used in the bot
   var params = msg.split(" ").slice(1);//not good
   params[params.length]=senderID//not used
