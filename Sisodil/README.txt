@@ -10,4 +10,4 @@ Will add additional documentation soon. Sorry!
 Main application file is sisodil.js 
 
 Primary commands are in the commands folder and 
-Mobile_suit class is within node moduals. 
+Mobile_suit class is within node modules. 
