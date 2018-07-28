@@ -36,8 +36,8 @@ con.connect((err) => {//err is a boolean return. True if err is caught
                                     "Manned BOOL)";
   con.query(table, (err, result)=>{
     if (err) throw err;
-    console.log("Table Created")
-  })
+    console.log("Table Created");
+  });
  con.end()
 });
 process.on('uncaughtException', (err)=>{
@@ -50,7 +50,7 @@ like the one you woud use minus the GUI*/
 var bot = new Discord.Client();
 //the bot then logs in with the following statement including it's token
 //token is stored in a config file for my eyes only
-bot.login(config.botToken)
+bot.login(config.botToken);
 
 //////////////////////////////////////////////////////////
 //    Added code bellow to handle modular commmands     //
@@ -61,23 +61,26 @@ bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 // Load the contents of the `/command/` folder and each file in it.
 fs.readdir(`./commands/`, (err, files) => {//
-  if(err) console.error(err);
-  console.log(`Loading a total of ${files.length} commands.`);
-  // Loops through each file in that folder
-  files.forEach(f=> {
-    // require the file itself in memory
-    let props = require(`./commands/${f}`);
-    console.log(`Loading Command: ${props.help.name}. :ok_hand:`);
-    // add the command to the Commands Collection
-    bot.commands.set(props.help.name, props);
-    // Loops through each Alias in that command
-    props.conf.aliases.forEach(alias => {
-      // add the alias to the Aliases Collection
-      bot.aliases.set(alias, props.help.name);
-    });
-  });
-});
+  if(err) throw err;
+  else{
+    console.log(`Loading a total of ${files.length} commands.`);
+    // Loops through each file in that folder
+    files.forEach(f=> {
+      // require the file itself in memory
+      let props = require(`./commands/${f}`);
+      console.log(`Loading Command: ${props.help.name}. :ok_hand:`);
+      // add the command to the Commands Collection
+      bot.commands.set(props.help.name, props);
+      // Loops through each Alias in that command
+      props.conf.aliases.forEach(alias => {
+        // add the alias to the Aliases Collection
+        bot.aliases.set(alias, props.help.name);
+      });//end of props.conf.aliases
+    });//end of file.forEach
+  }//end of else
+});//end of fs.readdir
 //------------------------------------------------------
+
 ////////////////////////////////////////////////////
 // The following is a lisener event for modular   //
 // commands                                       //

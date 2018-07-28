@@ -5,12 +5,14 @@ const m_proto=new Mobile_suit()
 
 exports.run=(bot,msg,params=[])=>{
   var print;
+  var obj;
   m_proto.search_ALLMobileSuits(msg.author.id,(err,data)=>{
     if(err){
       console.log(err)
     }
     else{
        print=data;
+       obj=JSON.parse(data)
     }
     msg.channel.send("```json\n"+print+"```")
   });
