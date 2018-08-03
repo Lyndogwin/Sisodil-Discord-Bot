@@ -87,7 +87,7 @@ fs.readdir(`./commands/`, (err, files) => {//
 ////////////////////////////////////////////////////
 bot.on('message', message => {
   var msg=message.content.toUpperCase();
-  var sender=message.author //not used
+  var sender=message.author
   var senderID=message.author.id //not used
 
   //ignore any message from bot id

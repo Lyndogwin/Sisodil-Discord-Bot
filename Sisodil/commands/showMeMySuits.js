@@ -12,7 +12,6 @@ exports.run=(bot,msg,params=[])=>{
     }
     else{
        print=data;
-       obj=JSON.parse(data)
     }
     msg.channel.send("```json\n"+print+"```")
   });
