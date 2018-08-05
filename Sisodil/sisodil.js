@@ -85,6 +85,7 @@ fs.readdir(`./commands/`, (err, files) => {//
 // The following is a lisener event for modular   //
 // commands                                       //
 ////////////////////////////////////////////////////
+bot.on('error', console.error);
 bot.on('message', message => {
   var msg=message.content.toUpperCase();
   var sender=message.author
@@ -102,7 +103,7 @@ bot.on('message', message => {
   // Get the params in an array of arguments to be used in the bot
   var params = msg.split(" ").slice(1);//not good
   params[params.length]=senderID//not used
-  console.log(params[params.length-1])
+  console.log("command issuer ID: "+params[params.length-1])
   // get the user's permission level
   /* put code here to check for permission level*/
   let cmd;
