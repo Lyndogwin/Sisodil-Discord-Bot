@@ -1,6 +1,6 @@
 
 exports.run=(bot,msg,params=[])=>{
-  var random=Math.floor(Math.random()*6); //random number generator(0 to 1)
+  var random=Math.floor(Math.random()*6); //random number generator(0 to 5)
 
   if (random==0){
     msg.channel.send('To die alone.');
@@ -20,7 +20,7 @@ exports.run=(bot,msg,params=[])=>{
   else if (random==5){
     msg.channel.send('To take a endless standardized test for eternity.');
   }
-}
+}//end of run
 exports.conf={
   enabled:true,
   aliases:[],

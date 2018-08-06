@@ -11,8 +11,6 @@ exports.run=(bot,msg,params=[])=>{
 
   var player_1=msg.author.id;
   var player_2;
-  var atk_scale=5;
-  var spd_scale=0.1;
   var damage;
   var suits=[];
   var queue=[];
@@ -24,25 +22,36 @@ exports.run=(bot,msg,params=[])=>{
   msg.channel.send("Tag the pilot you want to challenge.")
   collector.on('error', console.error);
   collector.on('collect', msg=>{
-    if(ok){
+    if(ok){// this if prevents repeat of previous code
       console.log(msg.content);
-      //take the user id and slice away fluff reviewed in console log
-      //format: <@userid>
-      player_2=msg.content.slice(2,-1);
+      try{
+        //take the user id and slice away fluff reviewed in console log
+        //format: <@userid>
+        player_2=msg.content.slice(2,-1);
+        //run player IDs through the iniatet combat function
+        m_proto.initiate_combat(player_1,player_2,bot,(err,data)=>{
+          if (err){
+            console.log(err);
+          }
+          else{
+            suits=data;
+          }
+          msg.channel.send("\nModel: "+suits[0].Model+
+                           "\nLVL:   "+suits[0].Lvl+
+                           "\n        vs"+
+                           "\nModel: "+suits[1].Model+
+                           "\nLVL:   "+suits[1].Lvl);
+          msg.channel.send("\n\nUse the command '->form' to enter attacking phase.");
+          console.log(suits);
+          ok=false;// this flag prevents repeat of previous code
+          check=true;
+        });
+      }
+      catch{
+        console.log(err);
+      }
+    }//end if
 
-      m_proto.initiate_combat(player_1,player_2,bot,(err,data)=>{
-        if (err){
-          console.log(err);
-        }
-        else{
-          suits=data;
-          msg.channel.send("Use the command '->form' to enter attacking phase.");
-        }
-        console.log(suits);
-        ok=false;
-        check=true;
-      });
-    }
     if(check) return;
   });
 
@@ -63,12 +72,12 @@ exports.run=(bot,msg,params=[])=>{
       hp_total[0]=suits[0].Hp;//player_1
       hp_total[1]=suits[1].Hp;//Player_2
 
-      check=false;
+      check=false;//boolean flag to prevent forced reformation
       console.log("queue 0 "+queue[0]);
       console.log("queue 1 "+queue[1]);
       console.log(suits);
     }
-
+    // if the bot is queue index 0 it auto-issue attack command
     if(queue[index]==='456435836943335455'){
       msg.channel.send("->attack");
     }
@@ -77,8 +86,8 @@ exports.run=(bot,msg,params=[])=>{
     if(msg.author.id===queue[index] && msg.content.toUpperCase()===config.prefix+"ATTACK"){
       msg.channel.send("Attacking!");
       //calculate damage
-      damage=((suits[index].Strength*atk_scale)-suits[index+1].Defense)-(suits[index+1].Speed*spd_scale);
-
+      //damage=((suits[index].Strength*atk_scale)-suits[index+1].Defense)-(suits[index+1].Speed*spd_scale);
+      damage=combat_damage(suits[index],suits[index+1]);
       if(damage<0){
         damage=1;
       }
@@ -105,9 +114,23 @@ exports.run=(bot,msg,params=[])=>{
     }
 
   });
+  // subroutines
+  function combat_damage(atk,def){
+    var atk_scale=5;
+    var spd_scale=0.1;
+    var def_scale=1.5
+    var crit_hit=Math.floor(Math.random()*(21));
 
+    var damage=((atk.Strength*atk_scale)-(def.Defense*def_scale))-(def.Speed*spd_scale);
 
-}
+    if(crit_hit===0){
+      damage=damage*1.5;
+      msg.channel.send("You landed a critical hit! ")
+    }
+    return damage;
+  }//end of combat_damage
+
+}//end of run
 exports.conf = {
   enabled: true, // not used yet
   aliases: [],

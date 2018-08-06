@@ -30,7 +30,7 @@ exports.run=(bot,msg,params=[])=>{//param accepts an array of arguements from bo
     }//if end
     return;
   }); //first collector end
-}
+}//end of run
 
 exports.conf = {
   enabled: true, // not used yet

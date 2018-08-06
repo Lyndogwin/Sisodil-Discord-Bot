@@ -10,10 +10,20 @@ exports.run=(bot,msg,params=[])=>{
   var defense=1000;
   var strength=1000;
   var speed=1000;
+  var check=false;
 
-  var ms=new Mobile_suit(id,model,lvl,hp,defense,strength,speed,true);
-  ms.add_MobileSuit();
+  try{
+    var ms=new Mobile_suit(id,model,lvl,hp,defense,strength,speed,true);
+    ms.add_MobileSuit();
+    check=true;
+  }
+  catch{
+    console.log(err);
+  }
 
+  if(check){
+    msg.channel.send("I have assembled my suit with the surrounding matter.");
+  }
 }
 exports.conf={
   enabled:true,
