@@ -21,8 +21,8 @@ const con = mysql.createConnection({
   insecureAuth: true //Probably don't need
 });
 
-con.connect((err) => {//err is a boolean return. True if err is caught
-  if (err) throw err;
+//con.connect((err) => {//err is a boolean return. True if err is caught
+  //if (err) throw err;
   console.log('Connected!');
 
   //create table *make sure this statement wont allow a rewrite*
@@ -38,8 +38,8 @@ con.connect((err) => {//err is a boolean return. True if err is caught
     if (err) throw err;
     console.log("Table Created");
   });
- con.end()
-});
+ //con.end()
+//});
 process.on('uncaughtException', (err)=>{
     console.log(err);
 });

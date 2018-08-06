@@ -40,7 +40,7 @@ exports.run=(bot,msg,params=[])=>{
                            "\nLVL:   "+suits[0].Lvl+
                            "\n        vs"+
                            "\nModel: "+suits[1].Model+
-                           "\nLVL:   "+suits[1].Lvl);
+                           "\nLVL:   "+suits[1].Lvl+"\n\n");
           msg.channel.send("\n\nUse the command '->form' to enter attacking phase.");
           console.log(suits);
           ok=false;// this flag prevents repeat of previous code
@@ -59,9 +59,9 @@ exports.run=(bot,msg,params=[])=>{
   bot.on('message', msg=>{
     // populate queue for combat based on speed
     if(check && msg.content.toUpperCase()===config.prefix+"FORM"){//haha
+      msg.channel.send("Use '->attack' command to damage your opponent.");
 
       if(suits[0].Speed<suits[1].Speed){
-
         suits.push(suits[0]);
         suits.shift();
       }
@@ -73,8 +73,8 @@ exports.run=(bot,msg,params=[])=>{
       hp_total[1]=suits[1].Hp;//Player_2
 
       check=false;//boolean flag to prevent forced reformation
-      console.log("queue 0 "+queue[0]);
-      console.log("queue 1 "+queue[1]);
+      console.log("Queue 0 "+queue[0]);
+      console.log("Queue 1 "+queue[1]);
       console.log(suits);
     }
     // if the bot is queue index 0 it auto-issue attack command
@@ -95,10 +95,17 @@ exports.run=(bot,msg,params=[])=>{
       suits[index+1].Hp=suits[index+1].Hp-damage;
       //alert damaged player
       msg.channel.send(damage+" Damage dealt to <@"+queue[index+1]+">"+
-                        "\nYour hp is now at "+suits[index+1].Hp+"/"+hp_total[index+1]);
+                        "\nYour hp is now at "+suits[index+1].Hp+"/"+hp_total[index+1]+"\n");
 
       console.log("Damage dealt: "+damage);
       console.log("New hp: "+suits[index+1].Hp);
+
+      if(suits[index+1].Hp<0){
+        msg.channel.send("<@"+queue[index+1]+"> has lost all functionality in suit."+
+                          "\nEjecting!");
+        queue[index]=null;
+        queue[index+1]=null;
+      }
 
       hp_total.push(hp_total[index]);
       hp_total.shift();

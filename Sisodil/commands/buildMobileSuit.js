@@ -20,13 +20,18 @@ exports.run=(bot,msg,params=[])=>{//param accepts an array of arguements from bo
     if(ok){
       var model=msg.content.toUpperCase();
       console.log("model entered: "+model);
-      var ms=new Mobile_suit(id,model,lvl,hp,defense,strength,speed,true);
-      ms.add_MobileSuit();
+      try{
+        var ms=new Mobile_suit(id,model,lvl,hp,defense,strength,speed,true);
+        ms.add_MobileSuit();
 
-      msg.channel.send("Your mobile suit has been added to your hanger "+
-                          "with hp at "+hp+", defense at "+defense+", strength at "+strength+", "+
-                          "and speed at "+speed+".");
-      ok=false;
+        msg.channel.send("Your mobile suit has been added to your hanger "+
+                            "with hp at "+hp+", defense at "+defense+", strength at "+strength+", "+
+                            "and speed at "+speed+".");
+        ok=false;
+      }
+      catch{
+        console.log(err);
+      }
     }//if end
     return;
   }); //first collector end
