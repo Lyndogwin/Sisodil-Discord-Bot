@@ -48,7 +48,7 @@ exports.run=(bot,msg,params=[])=>{
           check=true;
         });
       }
-      catch{
+      catch(e){
         console.log(err);
       }
     }//end if

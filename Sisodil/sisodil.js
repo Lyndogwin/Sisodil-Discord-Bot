@@ -34,10 +34,15 @@ const con = mysql.createConnection({
                                     "Strength INT(2),"+
                                     "Speed INT(2),"+
                                     "Manned BOOL)";
+  try{
   con.query(table, (err, result)=>{
     if (err) throw err;
     console.log("Table Created");
   });
+  }
+  catch(e){
+    console.log(err);
+  }
  //con.end()
 //});
 process.on('uncaughtException', (err)=>{

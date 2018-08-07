@@ -11,15 +11,21 @@ exports.run=(bot,msg,params=[])=>{
 
   //  print suits
   var print;
-  m_proto.search_ALLMobileSuits(id,(err,data)=>{
-    if(err){
-      console.log(err);
-    }
-    else{
-       print=data;
-    }
-    msg.channel.send("```json\n"+print+"```")
-  });
+
+  try{
+    m_proto.search_ALLMobileSuits(id,(err,data)=>{
+      if(err){
+        console.log(err);
+      }
+      else{
+         print=data;
+      }
+      msg.channel.send("```json\n"+print+"```")
+    });
+  }
+  catch(e){
+    console.log(err);
+  }
   //----------------------------------------
   //  dialog
   msg.channel.send("Which suit would you like to pilot?\n Specify model.")

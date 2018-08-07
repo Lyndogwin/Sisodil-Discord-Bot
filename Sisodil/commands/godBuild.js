@@ -17,7 +17,7 @@ exports.run=(bot,msg,params=[])=>{
     ms.add_MobileSuit();
     check=true;
   }
-  catch{
+  catch(e){
     console.log(err);
   }
 
