@@ -15,7 +15,7 @@ exports.run=(bot,msg,params=[])=>{
     msg.channel.send("Well, let's just say 'good luck'");
   }
   else if (random==4){
-    msg.channel.send('To send nudes to highschool girls at the ripe age of 50.');
+    msg.channel.send("You'll probablly be ok today; I guess.");
   }
   else if (random==5){
     msg.channel.send('To take a endless standardized test for eternity.');
