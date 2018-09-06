@@ -1,0 +1,8 @@
+# Don't tract the content of these folders
+
+
+
+
+# Compiled source #
+###################
+/Sisodil/node_modules/config.json
