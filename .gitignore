@@ -1,9 +1,8 @@
 # Don't tract the content of these folders
-
-
+sisodil/
 
 
 # Compiled source #
 ###################
-/node_modules/config.json
+node_modules/config.json
 sisodil_ssh.sh
