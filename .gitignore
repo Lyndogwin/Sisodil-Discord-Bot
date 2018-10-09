@@ -5,5 +5,5 @@
 
 # Compiled source #
 ###################
-/Sisodil/node_modules/config.json
+/node_modules/config.json
 sisodil_ssh.sh
