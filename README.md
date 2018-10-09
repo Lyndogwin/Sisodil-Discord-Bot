@@ -1,13 +1,12 @@
 # Sisodil, the tormentor
-Will add additional documentation soon. Sorry!
 
 The code you see in this repo is the heart of my first discord bot and my first attempt at Js, node.js, and discord.js    
-Very much so a work-in-progress.              
+Very much so a work-in-progress.
+
+*Main application file is sisodil.js
+Will add additional documentation soon. Sorry!
 
 # What you Need
-
-- Main application file is sisodil.js 
-
 - Primary commands are in the commands folder and Mobile_suit class is within node modules. 
 
 - You will need to install node.js and the mysql package for node. 
