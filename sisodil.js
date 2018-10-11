@@ -180,5 +180,4 @@ bot.on('guildMemberAdd', member=>{
 
   member.addRole(role);
 })//end of bot.on lisener for new member
-
 //----------------------------functions

@@ -6,3 +6,7 @@ sisodil/
 ###################
 node_modules/config.json
 sisodil_ssh.sh
+.Sisodilsbox
+
+# filetypes #
+*.swp # vim recovery file extention #
