@@ -9,4 +9,5 @@ sisodil_ssh.sh
 .Sisodilsbox
 
 # filetypes #
-*.swp # vim recovery file extention #
+# vim recovery file extention #
+*.swp
