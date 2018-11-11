@@ -4,6 +4,7 @@ The code you see in this repo is the heart of my first discord bot and my first 
 Very much so a work-in-progress.
 
 **Main application file is: sisodil.js**
+
 *Will add additional documentation soon. Sorry!*
 
 ## What you Need
