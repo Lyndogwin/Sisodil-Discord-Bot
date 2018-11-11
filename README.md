@@ -28,8 +28,11 @@ Will add additional documentation soon. Sorry!
 ```
 
 ## Primary commands that are dedicated to the mobile suit combat rpg run by this bot.
-                                                                 
-- ->build: allows you to build a mobile suit with random stats     
-- ->sortie: allows you to pick which mobile suit you want to pilot 
-- ->combat: allows you to initiate combat with another user        
+
+Command | Description
+------- | -----------
+
+->build | allows you to build a mobile suit with random stats     
+->sortie | allows you to pick which mobile suit you want to pilot 
+->combat | allows you to initiate combat with another user        
 
