@@ -35,11 +35,11 @@ exports.run=(bot,msg,params=[])=>{
             console.log(err);
           }
           else{
-            suits=data;
+            suits = data;
           }
           msg.channel.send("\nModel: "+suits[0].Model+
                            "\nLVL:   "+suits[0].Lvl+
-                           "\n        vs"+
+                           "\n              vs"+
                            "\nModel: "+suits[1].Model+
                            "\nLVL:   "+suits[1].Lvl+"\n\n");
           msg.channel.send("\n\nUse the command '->form' to enter attacking phase.");
@@ -49,7 +49,7 @@ exports.run=(bot,msg,params=[])=>{
         });
       }
       catch(e){
-        console.log(err);
+        console.log(e);
       }
     }//end if
     if(check) return;

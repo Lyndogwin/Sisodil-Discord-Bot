@@ -12,42 +12,32 @@ const m_proto=new Mobile_suit()
 /////////////////////////////////////////////
 // the following is mysql connection code  //
 // //////////////////////////////////////////
-const mysql = require('mysql');
-const con = mysql.createConnection({
-  host: 'localhost',//
-  user: 'root',
-  password: config.mysqlpass,//interchangable stored in config
-  database: 'sisodil',//interchangable
-  insecureAuth: true //Probably don't need
-});
+var con = require("dbconnect.js")
 
-//con.connect((err) => {//err is a boolean return. True if err is caught
-  //if (err) throw err;
-  console.log('Connected!');
 
-  //create table *make sure this statement wont allow a rewrite*
-  var table="CREATE TABLE IF NOT EXISTS mobile_suits (ID VARCHAR(30),"+
-                                    "Model VARCHAR(30),"+
-                                    "Lvl INT(2),"+
-                                    "Hp INT(4),"+
-                                    "Defense INT(2),"+
-                                    "Strength INT(2),"+
-                                    "Speed INT(2),"+
-                                    "Manned BOOL)";
-  try{
+console.log('Connected!');
+
+//create table *make sure this statement wont allow a rewrite*
+var table="CREATE TABLE IF NOT EXISTS mobile_suits (ID VARCHAR(30),"+
+                                  "Model VARCHAR(30),"+
+                                  "Lvl INT(2),"+
+                                  "Hp INT(4),"+
+                                  "Defense INT(2),"+
+                                  "Strength INT(2),"+
+                                  "Speed INT(2),"+
+                                  "Manned BOOL)";
+
   con.query(table, (err, result)=>{
-    if (err) throw err;
-    console.log("Table Created");
+      if (err){
+        console.log(err);
+      }
+      else{
+        console.log(result);
+        console.log("Table Created");
+      }
+      
   });
-  }
-  catch(e){
-    console.log(err);
-  }
- //con.end()
-//});
-process.on('uncaughtException', (err)=>{
-    console.log(err);
-});
+
 //------------------------------------------------------
 
 /*I beleieve this next statement simply creates an object instance of a discord client
@@ -73,7 +63,7 @@ fs.readdir(`./commands/`, (err, files) => {//
     files.forEach(f=> {
       // require the file itself in memory
       let props = require(`./commands/${f}`);
-      console.log(`Loading Command: ${props.help.name}. :ok_hand:`);
+      console.log(`Loading Command: ${props.help.name}. ナイス！`);
       // add the command to the Commands Collection
       bot.commands.set(props.help.name, props);
       // Loops through each Alias in that command

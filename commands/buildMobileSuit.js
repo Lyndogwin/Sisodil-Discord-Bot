@@ -29,7 +29,7 @@ exports.run=(bot,msg,params=[])=>{//param accepts an array of arguements from bo
                             "and speed at "+speed+".");
         ok=false;
       }
-      catch(e){
+      catch(err){
         console.log(err);
       }
     }//if end
