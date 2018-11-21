@@ -155,8 +155,8 @@ bot.on('message', message=> {
   else if (msg.includes('RIP')){
     message.channel.send('RIP');
   }
-  else if (msg.includes("Shine")){
-    message.channel.send("You're already dead...")
+  else if (msg.includes("死にたい")){
+    message.channel.send("お前は　もう　死んでいる。")
   }
 //------------------------------------------------------------------
 

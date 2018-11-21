@@ -36,6 +36,7 @@ exports.run=(bot,msg,params=[])=>{
           }
           else{
             suits = data;
+ 
           }
           msg.channel.send("\nModel: "+suits[0].Model+
                            "\nLVL:   "+suits[0].Lvl+
