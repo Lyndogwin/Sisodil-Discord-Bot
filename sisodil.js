@@ -159,6 +159,9 @@ bot.on('message', message=> {
     message.channel.send("お前は　もう　死んでいる。")
   }
 //------------------------------------------------------------------
+/*
+	Add leveling criteria here
+*/
 
 
 })//end of bot.on lisener for new message

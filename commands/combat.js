@@ -35,8 +35,14 @@ exports.run=(bot,msg,params=[])=>{
             console.log(err);
           }
           else{
-            suits = data;
- 
+            if (!data) {
+              msg.channel.send("You lack the proper equipment.");
+              return;
+            }
+            else{
+              suits = data;
+              msg.channel.send("Excellent. 始めましょうか。")
+            }
           }
           msg.channel.send("\nModel: "+suits[0].Model+
                            "\nLVL:   "+suits[0].Lvl+
