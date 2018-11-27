@@ -14,7 +14,6 @@ const m_proto=new Mobile_suit()
 // //////////////////////////////////////////
 var con = require("dbconnect.js")
 
-
 console.log('Connected!');
 
 //create table *make sure this statement wont allow a rewrite*
