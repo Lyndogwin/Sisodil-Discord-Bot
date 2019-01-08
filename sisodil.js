@@ -14,6 +14,7 @@ const m_proto=new Mobile_suit()
 // //////////////////////////////////////////
 var con = require("dbconnect.js")
 
+
 console.log('Connected!');
 
 //create table *make sure this statement wont allow a rewrite*
@@ -140,15 +141,15 @@ bot.on('message', message=> {
   /////////////////////////
 
   /*--message.includes() will scan the Message
-  for the string literal given as and arguement and
+  for the string literal given as and arguemen and
   return true if it exists within the context of the message string */
   if (msg.includes('BITCH'+'@Sisodil, the tormentor')){
     message.channel.send("I will not excuse such foul language towards me. You're not fit to breath my air.");
   }
-  else if (msg.includes('')) {
+  else if (msg.includes('NUTS')) {
     message.channel.send('Who let '+sender+' in here?');
   }
-  else if(msg.includes('')){
+  else if(msg.includes('FUCK YOU')){
     message.channel.send("....Vulgar human. Have you considered how childish you sound?", +sender);
   }
   else if (msg.includes('RIP')){
