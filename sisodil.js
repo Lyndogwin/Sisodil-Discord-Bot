@@ -98,7 +98,7 @@ bot.on('message', message => {
   // Get the params in an array of arguments to be used in the bot
   var params = msg.split(" ").slice(1);//not good
   params[params.length]=senderID//not used
-  console.log("command issuer ID: "+params[params.length-1])
+  console.log(`command issuer ID: ${params[params.length-1]}`)
   // get the user's permission level
   /* put code here to check for permission level*/
   let cmd;
@@ -137,7 +137,9 @@ bot.on('message', message=> {
   }
 //------------------------------------------------
   /////////////////////////
-  // tormentor detection //
+  //       Detection     //
+  //---------------------//
+  //   Language Control  //
   /////////////////////////
 
   /*--message.includes() will scan the Message
@@ -147,10 +149,10 @@ bot.on('message', message=> {
     message.channel.send("I will not excuse such foul language towards me. You're not fit to breath my air.");
   }
   else if (msg.includes('NUTS')) {
-    message.channel.send('Who let '+sender+' in here?');
+    message.channel.send(`Who let ${sender} in here?`);
   }
   else if(msg.includes('FUCK YOU')){
-    message.channel.send("....Vulgar human. Have you considered how childish you sound?", +sender);
+    message.channel.send(`....Vulgar human. Have you considered how childish you sound ${sender}?`);
   }
   else if (msg.includes('RIP')){
     message.channel.send('RIP');

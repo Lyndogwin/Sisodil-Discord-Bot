@@ -1,11 +1,13 @@
+////////////////////////////////////////////////
+// This command handles user combat scenarios //
+////////////////////////////////////////////////
 const Discord= require ("discord.js");
 const Mobile_suit=require("Mobile_suit.js");
 const config=require("config.json")
-////////////////////////////////////////////
-// work in progress.
-////////////////////////////////////////////
+
 const m_proto=new Mobile_suit()
 exports.run=(bot,msg,params=[])=>{
+  // Run collector to wait for reply from user
   const collector = new Discord.MessageCollector(msg.channel, m => m.author.id === msg.author.id, { time: 30000 });
   console.log(collector);
 
@@ -44,12 +46,12 @@ exports.run=(bot,msg,params=[])=>{
               msg.channel.send("Excellent. 始めましょうか。")
             }
           }
-          msg.channel.send("\nModel: "+suits[0].Model+
-                           "\nLVL:   "+suits[0].Lvl+
-                           "\n              vs"+
-                           "\nModel: "+suits[1].Model+
-                           "\nLVL:   "+suits[1].Lvl+"\n\n");
-          msg.channel.send("\n\nUse the command '->form' to enter attacking phase.");
+          msg.channel.send(`\n\nModel: ${suits[0].Model}
+                                LVL:   ${suits[0].Lvl}
+                           \n\n /////////// vs ////////////\n
+                              \nModel: ${suits[1].Model}
+                                LVL:   ${suits[1].Lvl}\n\n`);
+          msg.channel.send("\nUse the command '->form' to enter attacking phase.");
           console.log(suits);
           ok=false;// this flag prevents repeat of previous code
           check=true;
@@ -63,6 +65,7 @@ exports.run=(bot,msg,params=[])=>{
   });
 
   if(combat){
+    // non-global bot listener to look for comabt instruction
     bot.on('error', console.error);
     bot.on('message', msg=>{
       // populate queue for combat based on speed
@@ -82,8 +85,8 @@ exports.run=(bot,msg,params=[])=>{
 
         check=false;//boolean flag to prevent forced reformation
 
-        console.log("Queue 0 "+queue[0]);
-        console.log("Queue 1 "+queue[1]);
+        console.log(`Queue 0 ${queue[0]}`);
+        console.log(`Queue 1 ${queue[1]}`);
         console.log(suits);
       }
       // if the bot is queue index 0 it auto-issue attack command
@@ -103,20 +106,20 @@ exports.run=(bot,msg,params=[])=>{
         //resolve damage
         suits[index+1].Hp=suits[index+1].Hp-damage;
         //alert damaged player
-        msg.channel.send(damage+" Damage dealt to <@"+queue[index+1]+">"+
-                          "\nYour hp is now at "+suits[index+1].Hp+"/"+hp_total[index+1]+"\n");
+        msg.channel.send(`${damage} Damage dealt to <@${queue[index+1]}>
+                          \nYour hp is now at ${suits[index+1].Hp}/${hp_total[index+1]}\n`);
 
-        console.log("Damage dealt: "+damage);
-        console.log("New hp: "+suits[index+1].Hp);
+        console.log(`Damage dealt: ${damage}`);
+        console.log(`New hp: ${suits[index+1].Hp}`);
 
         if(suits[index+1].Hp<0){
-          msg.channel.send("<@"+queue[index+1]+"> has lost all functionality in suit."+
-                            "\nEjecting!");
+          msg.channel.send(`<@${queue[index+1]}> has lost all functionality in suit.
+                            \nEjecting!`);
           queue=[]; delete queue;
           suits=[]; delete suits;
           hp_total=[]; delete hp_total;
 
-          combat=false;
+          combat=false; //exit combat loop
           return;
         }// end of death check
         else{
@@ -163,8 +166,3 @@ exports.help = {
   description: "Initiate combat with another lamo",
   usage: "COMBAT"
 };
-
-/*
-damage=((suit_1.strength-suit_2.defense)*0.5)-(suit_2.speed*0.01);
-damage=((suit_2.strength-suit_2.defense)*0.5)-(suit_1.speed*0.01);
-*/
