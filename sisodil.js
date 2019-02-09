@@ -38,10 +38,10 @@ var mtable="CREATE TABLE IF NOT EXISTS mobile_suits (ID VARCHAR(30),"+
       }
   });
 
-//TODO: **** add query fro the bellow table  
-var leaderboard = "CREATE TABLE IF NOT EXISTS mobile_suits (ID VARCHAR(30),"+
+//TODO: **** add query fro the bellow table *** 
+var leaderboard = "CREATE TABLE IF NOT EXISTS Leaderboard (ID VARCHAR(30),"+
                                   "Wins INT(9),"+
-                                  "Loses INT(9),"+
+                                  "Losses INT(9),"+
                                   "MostUsed INT(2),"+
                                   "HighestLvL INT(2),"+
                                   "HighestDmg INT(2),"+
