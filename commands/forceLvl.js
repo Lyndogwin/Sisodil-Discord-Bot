@@ -14,7 +14,7 @@ exports.run=(bot,msg,params=[])=>{
 }
 exports.conf={
   enabled:true,
-  aliases:["STRIVE FOR PERFECTION"],
+  aliases:["Assend"],
   permLevel:0
 }
 exports.help={

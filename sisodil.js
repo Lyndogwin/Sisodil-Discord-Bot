@@ -2,13 +2,13 @@
 // ----This is the application script for the discord bot sisodil--- //
 ///////////////////////////////////////////////////////////////////////
 
-const Discord= require ("discord.js");
-const Mobile_suit=require("Mobile_suit.js");
-const config=require("config.json")
-const fs=require("fs");//  node.js file system module
+const Discord = require ("discord.js");
+const Mobile_suit = require("Mobile_suit.js");
+const config = require("config.json")
+const fs = require("fs");//  node.js file system module
 
-const m_proto=new Mobile_suit()
-
+const m_proto = new Mobile_suit()
+//------------------------------------------------------------
 /////////////////////////////////////////////
 // the following is mysql connection code  //
 // //////////////////////////////////////////
@@ -18,7 +18,7 @@ var con = require("dbconnect.js")
 console.log('Connected!');
 
 //create table *make sure this statement wont allow a rewrite*
-var table="CREATE TABLE IF NOT EXISTS mobile_suits (ID VARCHAR(30),"+
+var mtable="CREATE TABLE IF NOT EXISTS mobile_suits (ID VARCHAR(30),"+
                                   "Model VARCHAR(30),"+
                                   "Lvl INT(2),"+
                                   "Hp INT(4),"+
@@ -26,8 +26,9 @@ var table="CREATE TABLE IF NOT EXISTS mobile_suits (ID VARCHAR(30),"+
                                   "Strength INT(2),"+
                                   "Speed INT(2),"+
                                   "Manned BOOL)";
-
-  con.query(table, (err, result)=>{
+//TODO: **** add a value for usage frequency in the Mobilesuit table ****
+ 
+  con.query(mtable, (err, result)=>{ // this query utilizes implementation from dbconnect.js
       if (err){
         console.log(err);
       }
@@ -35,10 +36,19 @@ var table="CREATE TABLE IF NOT EXISTS mobile_suits (ID VARCHAR(30),"+
         console.log(result);
         console.log("Table Created");
       }
-      
   });
 
-//------------------------------------------------------
+//TODO: **** add query fro the bellow table  
+var leaderboard = "CREATE TABLE IF NOT EXISTS mobile_suits (ID VARCHAR(30),"+
+                                  "Wins INT(9),"+
+                                  "Loses INT(9),"+
+                                  "MostUsed INT(2),"+
+                                  "HighestLvL INT(2),"+
+                                  "HighestDmg INT(2),"+
+                                  "CurrSuit VARCHAR(30),"+
+                                  "PRIMARY KEY (ID))";//only want single entries for each user
+
+//---------------------------------------------------------------------------------------
 
 /*I beleieve this next statement simply creates an object instance of a discord client
 like the one you woud use minus the GUI*/
@@ -130,7 +140,6 @@ bot.on('message', message=> {
   //variables
   var sender= message.author;   //message creator and sender
   var msg=message.content.toUpperCase();   //converts message to caps
-  var prefix= '->';   //content needed before message to bot
 
   if (sender.id=='456435836943335455'){
     return;
@@ -172,7 +181,7 @@ bot.on('message', message=> {
 //this is a lisener event for incoming members. It wil greet them and assign roles
 bot.on('guildMemberAdd', member=>{
   console.log('User '+member.user.username+' has joined the server!');
-  message.channels.get(general).send('Welcome, '+member.user.username+'!');
+  member.channels.get('general').send('Welcome, '+member.user.username+'!');
 
   var role=member.guild.roles.find('name','@SadBoy');//this searches the server for roles by 'name',[role_name]
 
