@@ -4,15 +4,15 @@
 
 const Discord = require ("discord.js");
 const Mobile_suit = require("Mobile_suit.js");
-const config = require("config.json")
+const config = require("config.json");
 const fs = require("fs");//  node.js file system module
 
-const m_proto = new Mobile_suit()
+const m_proto = new Mobile_suit();
 //------------------------------------------------------------
 /////////////////////////////////////////////
 // the following is mysql connection code  //
 // //////////////////////////////////////////
-var con = require("dbconnect.js")
+var con = require("dbconnect.js");
 
 
 console.log('Connected!');
@@ -42,7 +42,7 @@ var mtable="CREATE TABLE IF NOT EXISTS mobile_suits (ID VARCHAR(30),"+
 var leaderboard = "CREATE TABLE IF NOT EXISTS Leaderboard (ID VARCHAR(30),"+
                                   "Wins INT(9),"+
                                   "Losses INT(9),"+
-                                  "MostUsed INT(2),"+
+                                  "MostUsed VARCHAR(30),"+
                                   "HighestLvL INT(2),"+
                                   "HighestDmg INT(2),"+
                                   "CurrSuit VARCHAR(30),"+
@@ -90,11 +90,20 @@ fs.readdir(`./commands/`, (err, files) => {//
 // The following is a lisener event for modular   //
 // commands                                       //
 ////////////////////////////////////////////////////
+
+// error handling
 bot.on('error', console.error);
+bot.on('error', err =>{
+  console.error(err);
+  bot.destroy();
+  bot.login(config.botToken);
+  
+});
+
 bot.on('message', message => {
   var msg=message.content.toUpperCase();
-  var sender=message.author
-  var senderID=message.author.id //not used
+  var sender=message.author;
+  var senderID=message.author.id; //not used
 
   //ignore any message from bot id
   if (sender.id=='456435836943335455'){
@@ -104,18 +113,18 @@ bot.on('message', message => {
   if(!msg.startsWith(config.prefix)) return;//ok
   // Get the command by getting the first part of the message and slicing the prefix.
   var command = msg.slice(config.prefix.length);//ok
-  console.log(command)
+  console.log(command);
   // Get the params in an array of arguments to be used in the bot
   var params = msg.split(" ").slice(1);//not good
-  params[params.length]=senderID//not used
-  console.log(`command issuer ID: ${params[params.length-1]}`)
+  params[params.length] = senderID;//not used
+  console.log(`command issuer ID: ${params[params.length-1]}`);
   // get the user's permission level
   /* put code here to check for permission level*/
   let cmd;
   // Check if the command exists in Commands
   if (bot.commands.has(command)) {
     // Assign the command, if it exists in Commands
-    cmd = bot.commands.get(command)
+    cmd = bot.commands.get(command);
   // Check if the command exists in Aliases
   } else if (bot.aliases.has(command)) {
     // Assign the command, if it exists in Aliases
@@ -167,24 +176,26 @@ bot.on('message', message=> {
     message.channel.send('RIP');
   }
   else if (msg.includes("死にたい")){
-    message.channel.send("お前は　もう　死んでいる。")
+    message.channel.send("お前は　もう　死んでいる。");
   }
 //------------------------------------------------------------------
+
+//-------------------------------------------------------------
 /*
 	Add leveling criteria here
 */
 
 
-})//end of bot.on lisener for new message
+});//end of bot.on lisener for new message
 //-------------------------------------------------------
 
 //this is a lisener event for incoming members. It wil greet them and assign roles
 bot.on('guildMemberAdd', member=>{
   console.log('User '+member.user.username+' has joined the server!');
   member.channels.get('general').send('Welcome, '+member.user.username+'!');
-
-  var role=member.guild.roles.find('name','@SadBoy');//this searches the server for roles by 'name',[role_name]
+  //this searches the server for roles by 'name',[role_name]
+  var role=member.guild.roles.find('name','@SadBoy');
 
   member.addRole(role);
-})//end of bot.on lisener for new member
+});//end of bot.on lisener for new member
 //----------------------------functions

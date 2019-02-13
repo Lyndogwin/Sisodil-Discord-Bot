@@ -11,6 +11,7 @@ exports.run=(bot,msg,params=[])=>{
       console.log(err)
     }
     else{
+       //TODO: **** serparate(slice) the data by {} ****
        print=data;
     }
     msg.channel.send("```json\n"+print+"```")
