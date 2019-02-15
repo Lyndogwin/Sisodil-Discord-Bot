@@ -97,7 +97,6 @@ bot.on('error', err =>{
   console.error(err);
   bot.destroy();
   bot.login(config.botToken);
-  
 });
 
 bot.on('message', message => {
