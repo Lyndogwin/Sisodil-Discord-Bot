@@ -1,11 +1,15 @@
-# Sisodil, the tormentor
+```
+   _____             ___ __
+  / __(_)__ ___  ___/ (_) /
+ _\ \/ (_-</ _ \/ _  / / / 
+/___/_/___/\___/\_,_/_/_/
+```
 
 The code you see in this repo is the heart of my first discord bot and my first attempt at Js, node.js, and discord.js    
 Very much so a work-in-progress.
 
 **Main application file is: sisodil.js**
 
-*Will add additional documentation soon. Sorry!*
 
 ## What you Need
 - Primary commands are in the commands folder and Mobile_suit class is within node modules. 
